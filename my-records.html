@@ -1,0 +1,64 @@
+<!-- My Records Page (linked via ?player=Name or stored profile) -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My ZWR Records</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root { --accent:#ffd700; --bg-dark:#000; --bg-lighter:#111; --text-light:#ffd700; }
+      *{box-sizing:border-box;margin:0;padding:0;font-family:"Roboto",sans-serif;}
+      body{background:var(--bg-dark);color:var(--text-light);padding:0 1rem 4rem;max-width:960px;margin:auto;}
+      header{display:flex;justify-content:space-between;align-items:center;background:var(--bg-lighter);padding:.75rem 1rem;border-bottom:1px solid var(--accent);} .logo{font-size:1.3rem;font-weight:700;color:var(--accent);} a{color:var(--accent);text-decoration:none;} a:hover{opacity:.8;} h1{text-align:center;color:var(--accent);margin:1.5rem 0;} table{width:100%;border-collapse:collapse;margin-bottom:2rem;} thead{background:var(--accent);color:var(--bg-dark);} th,td{padding:.75rem;text-align:left;border-bottom:1px solid var(--accent);} tbody tr:nth-child(odd){background:var(--bg-lighter);} .msg{margin-top:2rem;text-align:center;font-style:italic;}
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="logo">ZWR • Player Records</div>
+      <nav><a href="zwr-leaderboard.html">← Back to Leaderboard</a></nav>
+    </header>
+
+    <h1 id="page-title">Player Records</h1>
+    <table id="records-table">
+      <thead><tr><th>#</th><th>Map</th><th>Round</th><th>Date</th></tr></thead>
+      <tbody></tbody>
+    </table>
+    <p id="msg" class="msg" style="display:none;"></p>
+
+    <script>
+      const K_APPR='zwrApprovedRecords', K_USER='zwrCurrentPlayer';
+      const tbody=document.querySelector('#records-table tbody');
+      const title=document.getElementById('page-title');
+      const msg=document.getElementById('msg');
+
+      // Determine player name from URL (?player=Name) or stored profile
+      const params=new URLSearchParams(window.location.search);
+      let player=params.get('player') || localStorage.getItem(K_USER) || '';
+      player = player.trim();
+      // remove leading/trailing quotation marks if present
+      if(player.startsWith('"') && player.endsWith('"')){
+        player = player.slice(1, -1);
+      }
+
+      title.textContent = player ? `${player}'s Records` : 'Player Records';
+
+      const approved = JSON.parse(localStorage.getItem(K_APPR)) || [];
+      const mine = approved.filter(r => r.player.trim().toLowerCase() === player.toLowerCase());
+
+      if(!player){
+        msg.textContent = 'No player selected. Go back and click your name.';
+        msg.style.display = 'block';
+      } else if(mine.length === 0){
+        msg.textContent = 'No approved records yet for this player.';
+        msg.style.display = 'block';
+      } else {
+        mine.forEach((r,i)=>{
+          tbody.insertAdjacentHTML('beforeend',`<tr><td>${i+1}</td><td>${r.map}</td><td>${r.round}</td><td>${r.date}</td></tr>`);
+        });
+      }
+    </script>
+  </body>
+</html>

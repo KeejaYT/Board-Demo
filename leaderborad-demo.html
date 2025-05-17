@@ -2,373 +2,192 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ZWR Leaderboard</title>
-
-    <!-- Google Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet" />
-
     <style>
-      :root {
-        --accent: #ffd700; /* gold */
-        --bg-dark: #000;
-        --bg-lighter: #111;
-        --text-light: #ffd700;
-      }
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        font-family: "Roboto", sans-serif;
-      }
-      body {
-        background: var(--bg-dark);
-        color: var(--text-light);
-        padding: 0 1rem 4rem;
-        max-width: 960px;
-        margin: auto;
-      }
-
-      /* ===== Topbar ===== */
-      .topbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: var(--bg-lighter);
-        padding: 0.75rem 1rem;
-        border-bottom: 1px solid var(--accent);
-      }
-      .logo {
-        font-size: 1.5rem;
-        font-weight: 700;
-        color: var(--accent);
-      }
-      .profile-wrapper {
-        position: relative;
-      }
-      .avatar {
-        width: 36px;
-        height: 36px;
-        border-radius: 50%;
-        background: var(--accent);
-        color: var(--bg-dark);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        cursor: pointer;
-        user-select: none;
-      }
-      .profile-dropdown {
-        position: absolute;
-        right: 0;
-        top: 45px;
-        background: var(--bg-lighter);
-        border: 1px solid var(--accent);
-        border-radius: 6px;
-        padding: 0.75rem;
-        width: 220px;
-        display: none;
-        flex-direction: column;
-        gap: 0.5rem;
-        z-index: 20;
-      }
-      .profile-dropdown.visible {
-        display: flex;
-      }
-      .profile-dropdown label {
-        font-size: 0.85rem;
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-      }
-      .profile-dropdown input {
-        padding: 0.5rem;
-        border-radius: 4px;
-        border: 1px solid var(--accent);
-        background: var(--bg-dark);
-        color: var(--text-light);
-      }
-
-      h1 {
-        text-align: center;
-        margin: 1.5rem 0;
-        color: var(--accent);
-        font-size: 2rem;
-      }
-
-      /* ===== Submission Area ===== */
-      .submit-area {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 1rem;
-        margin-bottom: 2rem;
-        background: var(--bg-lighter);
-        padding: 1rem;
-        border: 1px solid var(--accent);
-        border-radius: 8px;
-      }
-      .submit-form {
-        flex: 1 1 300px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.5rem 1rem;
-      }
-      label {
-        display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
-        font-size: 0.85rem;
-      }
-      input,
-      select {
-        padding: 0.5rem;
-        border-radius: 4px;
-        border: 1px solid var(--accent);
-        background: var(--bg-dark);
-        color: var(--text-light);
-      }
-      button {
-        padding: 0.5rem 1rem;
-        border-radius: 4px;
-        border: none;
-        background: var(--accent);
-        color: var(--bg-dark);
-        font-weight: 600;
-        cursor: pointer;
-        flex: 1 1 100px;
-      }
-      button:hover {
-        opacity: 0.9;
-      }
-
-      /* ===== Tables ===== */
-      table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 2rem;
-      }
-      thead {
-        background: var(--accent);
-        color: var(--bg-dark);
-      }
-      th,
-      td {
-        padding: 0.75rem;
-        text-align: left;
-        border-bottom: 1px solid var(--accent);
-      }
-      tbody tr:nth-child(odd) {
-        background: var(--bg-lighter);
-      }
-      .approve-btn {
-        background: var(--accent);
-        color: var(--bg-dark);
-        border: none;
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        cursor: pointer;
-      }
+      :root{--accent:#ffd700;--bg-dark:#000;--bg-lighter:#111;--text-light:#ffd700;--danger:#b30000}
+      *{box-sizing:border-box;margin:0;padding:0;font-family:"Roboto",sans-serif}
+      body{background:var(--bg-dark);color:var(--text-light);padding:0 1rem 4rem;max-width:960px;margin:auto}
+      .topbar{display:flex;justify-content:space-between;align-items:center;background:var(--bg-lighter);padding:.75rem 1rem;border-bottom:1px solid var(--accent)}
+      .logo{font-size:1.5rem;font-weight:700;color:var(--accent)}
+      .top-nav a{color:var(--accent);margin-left:1rem;text-decoration:none}
+      .top-nav a:hover{opacity:.8}
+      .profile-wrapper{position:relative}
+      .avatar{width:36px;height:36px;border-radius:50%;background:var(--accent);color:var(--bg-dark);display:flex;align-items:center;justify-content:center;font-weight:600;cursor:pointer}
+      .profile-dropdown{position:absolute;right:0;top:45px;background:var(--bg-lighter);border:1px solid var(--accent);border-radius:6px;padding:.75rem;width:220px;display:none;flex-direction:column;gap:.5rem;z-index:20}
+      .profile-dropdown.visible{display:flex}
+      .profile-dropdown input{padding:.5rem;border-radius:4px;border:1px solid var(--accent);background:var(--bg-dark);color:var(--text-light)}
+      h1{margin:1.5rem 0;text-align:center;color:var(--accent)}
+      .submit-area{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;background:var(--bg-lighter);padding:1rem;border:1px solid var(--accent);border-radius:8px}
+      .submit-form{flex:1 1 300px;display:flex;flex-wrap:wrap;gap:.5rem 1rem}
+      label{display:flex;flex-direction:column;gap:.25rem;font-size:.85rem}
+      input,select{padding:.5rem;border-radius:4px;border:1px solid var(--accent);background:var(--bg-dark);color:var(--text-light)}
+      button{padding:.5rem 1rem;border-radius:4px;border:none;background:var(--accent);color:var(--bg-dark);font-weight:600;cursor:pointer}
+      button:hover{opacity:.9}
+      table{width:100%;border-collapse:collapse;margin-bottom:2rem}
+      thead{background:var(--accent);color:var(--bg-dark)}
+      th,td{padding:.75rem;text-align:left;border-bottom:1px solid var(--accent)}
+      tbody tr:nth-child(odd){background:var(--bg-lighter)}
+      .approve-btn,.delete-btn,.deny-btn{background:var(--accent);color:var(--bg-dark);border:none;padding:.25rem .5rem;border-radius:4px;cursor:pointer}
+      .deny-btn{background:var(--danger);color:#fff}
     </style>
   </head>
   <body>
-    <!-- ===== Topbar ===== -->
     <header class="topbar">
       <div class="logo">ZWR</div>
+      <nav class="top-nav"><a href="my-records.html">My Records</a></nav>
       <div class="profile-wrapper">
         <div class="avatar" id="avatar">?</div>
-        <div class="profile-dropdown" id="profileDropdown">
-          <label>
-            Player Name
-            <input type="text" id="player-name-input" placeholder="Enter your name" />
-          </label>
-        </div>
+        <div class="profile-dropdown" id="profileDropdown"><label>Player Name<input type="text" id="player-name-input" placeholder="Enter your name" /></label></div>
       </div>
     </header>
 
     <h1>Leaderboard</h1>
 
-    <!-- ===== Submission Area ===== -->
+    <!-- Submission Form -->
     <section class="submit-area">
       <form id="submit-form" class="submit-form">
-        <label>
-          Map
-          <select id="map">
-            <option value="Kino der Toten">Kino der Toten</option>
-            <option value="Ascension">Ascension</option>
-            <option value="Der Riese">Der Riese</option>
-            <option value="Five">Five</option>
-          </select>
-        </label>
-        <label>
-          Round
-          <input type="number" id="round" min="1" placeholder="Round" />
-        </label>
+        <label>Map<select id="map"><option>Kino der Toten</option><option>Ascension</option><option>Der Riese</option><option>Five</option></select></label>
+        <label>Round<input type="number" id="round" min="1" placeholder="Round" /></label>
         <button type="submit">Submit Record</button>
       </form>
     </section>
 
-    <!-- ===== Pending Submissions (visible only to Keeja) ===== -->
+    <!-- Pending -->
     <section id="pending-section" style="display:none;">
       <h2 style="margin:1rem 0;color:var(--accent);">Pending Submissions</h2>
-      <table id="pending-table">
-        <thead>
-          <tr>
-            <th>Player</th>
-            <th>Map</th>
-            <th>Round</th>
-            <th>Date</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      </table>
+      <table id="pending-table"><thead><tr><th>Player</th><th>Map</th><th>Round</th><th>Date</th><th>Action</th></tr></thead><tbody></tbody></table>
     </section>
 
-    <!-- ===== Approved Leaderboard ===== -->
+    <!-- Approved -->
     <h2 style="margin:1rem 0;color:var(--accent);">Approved Records</h2>
-    <table id="leaderboard">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Player</th>
-          <th>Map</th>
-          <th>Round</th>
-          <th>Date</th>
-        </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
+    <table id="leaderboard"><thead><tr><th>#</th><th>Player</th><th>Map</th><th>Round</th><th>Date</th><th>Action</th></tr></thead><tbody></tbody></table>
 
     <script>
-      /* ========= Storage Keys ========= */
-      const STORAGE_KEY_APPROVED = "zwrApprovedRecords";
-      const STORAGE_KEY_PENDING = "zwrPendingRecords";
-      const STORAGE_KEY_PLAYER = "zwrCurrentPlayer";
+      // ---------- CONFIG ----------
+      const KEY_APPR='zwrApprovedRecords', KEY_PEND='zwrPendingRecords', KEY_USER='zwrCurrentPlayer';
+      const ADMINS=['keeja','james'];
+      const ADMIN_SECRET='ZWR2025'; // change before sharing
 
-      /* ========= DOM Elements ========= */
-      const leaderboardBody = document.querySelector("#leaderboard tbody");
-      const pendingBody = document.querySelector("#pending-table tbody");
-      const pendingSection = document.getElementById("pending-section");
-      const form = document.getElementById("submit-form");
-      const avatarEl = document.getElementById("avatar");
-      const dropdown = document.getElementById("profileDropdown");
-      const playerInput = document.getElementById("player-name-input");
+      // ---------- DOM ----------
+      const lbBody=document.querySelector('#leaderboard tbody');
+      const pendBody=document.querySelector('#pending-table tbody');
+      const pendSection=document.getElementById('pending-section');
+      const avatar=document.getElementById('avatar');
+      const dropdown=document.getElementById('profileDropdown');
+      const playerInput=document.getElementById('player-name-input');
+      const form=document.getElementById('submit-form');
 
-      /* ========= Data ========= */
-      let approved = JSON.parse(localStorage.getItem(STORAGE_KEY_APPROVED)) || [
-        { player: "PlayerOne", map: "Kino der Toten", round: 100, date: "2025-05-10" },
-        { player: "ZombieSlayer", map: "Ascension", round: 95, date: "2025-04-22" },
-        { player: "SpeedRunPro", map: "Der Riese", round: 92, date: "2025-03-18" }
-      ];
-      let pending = JSON.parse(localStorage.getItem(STORAGE_KEY_PENDING)) || [];
-      let currentPlayer = localStorage.getItem(STORAGE_KEY_PLAYER) || "";
+      // ---------- STATE ----------
+      let approved=JSON.parse(localStorage.getItem(KEY_APPR))||[];
+      let pending =JSON.parse(localStorage.getItem(KEY_PEND))||[];
+      let currentPlayer=localStorage.getItem(KEY_USER)||'';
 
-      /* ========= Utility ========= */
-      const isKeeja = () => currentPlayer.trim().toLowerCase() === "keeja";
+      // ---------- HELPERS ----------
+      const save=(k,d)=>localStorage.setItem(k,JSON.stringify(d));
+      const isAdmin=()=>ADMINS.includes(currentPlayer.trim().toLowerCase()) || localStorage.getItem('isAdminOverride')==='true';
+      const setAvatar=name=>avatar.textContent=name?name[0].toUpperCase():'?';
+      const linkPlayer=name=>`<a href="my-records.html?player=${encodeURIComponent(name)}">${name}</a>`;
+      const updatePendingVisibility=()=>pendSection.style.display=isAdmin()?'block':'none';
 
-      function save(key, data) {
-        localStorage.setItem(key, JSON.stringify(data));
-      }
-      function setAvatar(name) {
-        avatarEl.textContent = name ? name.charAt(0).toUpperCase() : "?";
-      }
-      function togglePendingVisibility() {
-        pendingSection.style.display = isKeeja() ? "block" : "none";
-      }
-
-      /* ========= Rendering ========= */
-      function renderLeaderboard() {
-        approved.sort((a, b) => b.round - a.round);
-        leaderboardBody.innerHTML = "";
-        approved.forEach((rec, idx) => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${idx + 1}</td>
-            <td>${rec.player}</td>
-            <td>${rec.map}</td>
-            <td>${rec.round}</td>
-            <td>${rec.date}</td>
-          `;
-          leaderboardBody.appendChild(tr);
+      // ---------- RENDERERS ----------
+      function renderLeaderboard(){
+        lbBody.innerHTML='';
+        approved.sort((a,b)=>b.round-a.round).forEach((r,i)=>{
+          lbBody.insertAdjacentHTML('beforeend',`
+            <tr>
+              <td>${i+1}</td>
+              <td>${linkPlayer(r.player)}</td>
+              <td>${r.map}</td>
+              <td>${r.round}</td>
+              <td>${r.date}</td>
+              <td>${isAdmin()?`<button class='delete-btn' data-i='${i}'>Delete</button>`:''}</td>
+            </tr>`);
         });
       }
-      function renderPending() {
-        pendingBody.innerHTML = "";
-        pending.forEach((rec, idx) => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${rec.player}</td>
-            <td>${rec.map}</td>
-            <td>${rec.round}</td>
-            <td>${rec.date}</td>
-            <td><button class="approve-btn" data-index="${idx}">Approve</button></td>
-          `;
-          pendingBody.appendChild(tr);
+      function renderPending(){
+        pendBody.innerHTML='';
+        pending.forEach((r,i)=>{
+          pendBody.insertAdjacentHTML('beforeend',`
+            <tr>
+              <td>${r.player}</td><td>${r.map}</td><td>${r.round}</td><td>${r.date}</td>
+              <td>${isAdmin()?`<button class='approve-btn' data-i='${i}'>Approve</button> <button class='deny-btn' data-i='${i}'>Deny</button>`:''}</td>
+            </tr>`);
         });
       }
 
-      /* ========= Initial Setup ========= */
-      playerInput.value = currentPlayer;
+      // ---------- ONE‑TIME ADMIN UNLOCK ----------
+      function promptAdminUnlock(){
+        const key=prompt('Enter admin key:');
+        if(key===ADMIN_SECRET){
+          localStorage.setItem('isAdminOverride','true');
+          alert('Admin mode enabled (this browser only).');
+          updatePendingVisibility();
+          renderPending();
+          renderLeaderboard();
+        }else if(key!==null){
+          alert('Incorrect key.');
+        }
+      }
+      document.addEventListener('keydown', e=>{
+        if(e.ctrlKey && e.shiftKey && e.key.toLowerCase()==='a'){
+          promptAdminUnlock();
+        }
+      });
+
+      // ---------- INIT ----------
+      playerInput.value=currentPlayer;
       setAvatar(currentPlayer);
-      togglePendingVisibility();
+      updatePendingVisibility();
       renderLeaderboard();
       renderPending();
 
-      /* ========= Event Handlers ========= */
-      // Avatar dropdown toggle
-      avatarEl.addEventListener("click", () => {
-        dropdown.classList.toggle("visible");
+      // ---------- INTERACTIONS ----------
+      avatar.addEventListener('click',()=> dropdown.classList.toggle('visible'));
+      document.addEventListener('click',e=>{
+        if(!avatar.contains(e.target) && !dropdown.contains(e.target)) dropdown.classList.remove('visible');
       });
-      document.addEventListener("click", (e) => {
-        if (!avatarEl.contains(e.target) && !dropdown.contains(e.target)) {
-          dropdown.classList.remove("visible");
-        }
-      });
-      // Player name change
-      playerInput.addEventListener("input", (e) => {
-        currentPlayer = e.target.value.trim();
+      playerInput.addEventListener('input',e=>{
+        currentPlayer=e.target.value.trim();
         setAvatar(currentPlayer);
-        save(STORAGE_KEY_PLAYER, currentPlayer);
-        togglePendingVisibility();
+        save(KEY_USER,currentPlayer);
+        updatePendingVisibility();
+        renderLeaderboard();
       });
-      // Submit form -> add to pending
-      form.addEventListener("submit", (e) => {
+      form.addEventListener('submit',e=>{
         e.preventDefault();
-        const map = document.getElementById("map").value;
-        const roundNum = parseInt(document.getElementById("round").value, 10);
-        if (!roundNum || roundNum < 1) {
-          alert("Please enter a valid round number.");
-          return;
-        }
-        const record = {
-          player: currentPlayer || "Unknown",
-          map,
-          round: roundNum,
-          date: new Date().toISOString().slice(0, 10)
-        };
-        pending.push(record);
-        save(STORAGE_KEY_PENDING, pending);
+        const map=document.getElementById('map').value;
+        const round=parseInt(document.getElementById('round').value,10);
+        if(!round){alert('Enter a valid round');return;}
+        pending.push({player:currentPlayer||'Unknown',map,round,date:new Date().toISOString().slice(0,10)});
+        save(KEY_PEND,pending);
         renderPending();
         form.reset();
       });
-      // Approve pending (only Keeja)
-      pendingBody.addEventListener("click", (e) => {
-        if (e.target.classList.contains("approve-btn")) {
-          if (!isKeeja()) {
-            alert("Only Keeja can approve records.");
-            return;
-          }
-          const idx = parseInt(e.target.dataset.index, 10);
-          const rec = pending.splice(idx, 1)[0];
-          approved.push(rec);
-          save(STORAGE_KEY_PENDING, pending);
-          save(STORAGE_KEY_APPROVED, approved);
+      pendBody.addEventListener('click',e=>{
+        const idx=parseInt(e.target.dataset.i,10);
+        if(e.target.classList.contains('approve-btn')||e.target.classList.contains('deny-btn')){
+          if(!isAdmin()){alert('Admins only');return;}
+          if(e.target.classList.contains('approve-btn')) approved.push(pending[idx]);
+          pending.splice(idx,1);
+          save(KEY_PEND,pending);
+          save(KEY_APPR,approved);
           renderPending();
           renderLeaderboard();
+        }
+      });
+      lbBody.addEventListener('click',e=>{
+        if(e.target.classList.contains('delete-btn')){
+          if(!isAdmin()){alert('Admins only');return;}
+          const idx=parseInt(e.target.dataset.i,10);
+          if(confirm('Delete this record permanently?')){
+            approved.splice(idx,1);
+            save(KEY_APPR,approved);
+            renderLeaderboard();
+          }
         }
       });
     </script>
